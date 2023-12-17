@@ -1,0 +1,41 @@
+{
+  "version": "0.1.0",
+  "name": "eorc-api",
+  "description": "EORC-20 are a new way of creating and sharing digital artifacts on EOS EVM using transaction calldata.",
+  "homepage": "https://github.com/pinax-network/eorc20-indexer",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "eorc-api": "dist/bin/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "bun bin/cli.ts",
+    "dev": "bun --watch bin/cli.ts",
+    "test": "bun test",
+    "posttest": "tsc --noEmit",
+    "prepublishOnly": "tsc"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "latest",
+    "dotenv": "latest",
+    "openapi3-ts": "latest",
+    "prom-client": "latest",
+    "viem": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "typescript": "latest"
+  }
+}
