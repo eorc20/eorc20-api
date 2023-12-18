@@ -68,3 +68,49 @@ export const InscriptionRawData = Type.Object({
 })
 
 export type InscriptionRawData = Static<typeof InscriptionRawData>
+
+export const TokenSupply = Type.Object({
+    tick: Type.String({example: "eoss"}),
+    protocol: Type.String({example: "eo"}),
+    deploy_timestamp: Type.String({example: ""}),
+    last_block_number: Type.String({example: ""}),
+    last_timestamp: Type.String({example: ""}),
+    holders: Type.String({example: ""}),
+    active_supply: Type.String({example: ""}),
+    max_supply: Type.String({example: ""}),
+    transactions: Type.String({example: ""}),
+    progress: Type.String({example: ""}),
+})
+
+
+// export const TickListItem = Type.Object({
+//     amount: Type.String({example: "10000"}),
+//     tick: Type.String({example: "eoss"}),
+//     number: Type.Number({example: 22126343}),
+//     precision: Type.Number({example: 0}),
+//     createdAt: Type.Number({example: 1700888064}),
+// })
+
+// export type TickListItem = Static<typeof TickListItem>
+
+// export const TickResponse = Type.Object({
+//     status: Type.Number({example: 200}),
+//     data: Type.Object({
+//         id: Type.String(),              // 1
+//         tick: Type.String(),            // "ethi"
+//         amount: Type.Number(),          // "21000000"
+//         max: Type.Number(),             // "21000000"
+//         workc: Type.String(),           // ""
+//         protocol: Type.String(),        // "IERC-20"
+//         holder: Type.Number(),          // 5944
+//         creator: Type.String(),         // "0xb3a6c05c1b795b08c9ed936478a244529eda20c0"
+//         // json: Type.String(),            // "%7B%22p%22:%22terc-20%22%2C%22op%22:%22deploy%22%2C%22tick%22:%22ethi%22%2C%22max%22:%2221000000%22%2C%22lim%22:%221000%22%2C%22wlim%22:%2210000%22%2C%22dec%22:%228%22%2C%22nonce%22:%2210%22%7D"
+//         // last_time: Type.String(),       // "1688819531"
+//         // time: Type.String(),            // "1688202827"
+//         decimals: Type.Number(),        // 8
+//         created_at: Type.String(),      // "2023-11-08T06:45:32Z"
+//         updated_at: Type.String(),      // "2023-11-08T06:56:19Z"
+//     }),
+// })
+
+// export type TickResponse = Static<typeof TickResponse>

@@ -2,11 +2,10 @@ import { file } from "bun";
 import swaggerFavicon from "../../swagger/favicon.png";
 import swaggerHtml from "../../swagger/index.html";
 import { NotFound, toFile, toJSON } from "./cors.js";
-// import { findLatestCursor } from "./cursor.js";
-// import health from "./health.js";
 import { openapi } from "./openapi.js";
 import health from "./health.js";
 import { metrics } from "../prometheus.js";
+import { groupBySupply } from "../../sql/groupBySupply.js";
 
 export default async function (req: Request) {
   const { pathname } = new URL(req.url);
@@ -16,8 +15,8 @@ export default async function (req: Request) {
   if (pathname === "/health") return health();
   if (pathname === "/metrics") return metrics();
   if (pathname === "/openapi") return toJSON(await openapi());
-//   if (pathname === "/blocks") return blocks();
-//   if (pathname === "/cursor/latest") return findLatestCursor(req);
+  if (pathname === "/supply") return toJSON(await groupBySupply());
+  // if (pathname === "/supply") return toJSON(await groupBySupply());
 
   return NotFound;
 }

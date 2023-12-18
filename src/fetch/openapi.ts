@@ -3,6 +3,7 @@ import pkg from "../../package.json" assert { type: "json" };
 import { LicenseObject } from "openapi3-ts/oas30";
 import { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 import { InscriptionArrayItem, InscriptionPayload, InscriptionResponse, TokensPayload, TokensResponse } from "../schemas.js";
+import { GroupBySupply, GroupBySupplyResponse } from "../../sql/groupBySupply.js";
 
 const TAGS = {
   USAGE: "Usage",
@@ -40,38 +41,18 @@ export async function openapi() {
       } as LicenseObject,
     })
     .addExternalDocs({ url: pkg.homepage, description: "Extra documentation" })
-    .addPath("/tokens", {
-        post: {
-          tags: [TAGS.USAGE],
-          summary: "Get tokens from address",
-          requestBody: {
-            required: true,
-            content: { "application/json": { schema: TokensPayload } },
-          },
-          responses: {
-            200: {
-              description: "List of tokens",
-              content: { "application/json": { schema: TokensResponse } },
-            },
-          },
-        },
-    })
-    .addPath("/inscription", {
-      post: {
+    .addPath("/supply", {
+      get: {
         tags: [TAGS.USAGE],
-        summary: "Get inscriptions from owner",
-        requestBody: {
-          required: true,
-          content: { "application/json": { schema: InscriptionPayload } },
-        },
+        summary: "Get tickers supply",
         responses: {
           200: {
-            description: "List of inscriptions",
-            content: { "application/json": { schema: InscriptionResponse } },
+            description: "List of ticker supply",
+            content: { "application/json": { schema: GroupBySupplyResponse }},
           },
         },
       },
-  })
+    })
     .addPath("/health", {
       get: {
         tags: [TAGS.HEALTH],
