@@ -28,7 +28,7 @@
     "prepublishOnly": "tsc"
   },
   "dependencies": {
-    "@clickhouse/client": "^0.2.7",
+    "@clickhouse/client-web": "latest",
     "@sinclair/typebox": "latest",
     "dotenv": "latest",
     "openapi3-ts": "latest",

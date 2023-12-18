@@ -4,7 +4,7 @@ SELECT
   first_value(operations_deploy.timestamp) as deploy_timestamp,
   last_value(block_number) as last_block_number,
   last_value(timestamp) as last_timestamp,
-  count(owner) as holders,
+  uniq(owner) as holders,
   sum(amt) as active_supply,
   first_value(max) as max_supply,
   (sum(amt) / first_value(max)) as progress,
