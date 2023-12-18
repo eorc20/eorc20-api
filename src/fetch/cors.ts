@@ -3,7 +3,7 @@ import { BunFile } from "bun";
 export const CORS_HEADERS = new Headers({
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, WWW-Authenticate",
+  "Access-Control-Allow-Headers": "Content-Type",
 });
 export const JSON_HEADERS = new Headers({ "Content-Type": "application/json" });
 export const TEXT_HEADERS = new Headers({ "Content-Type": "text/plain" });
