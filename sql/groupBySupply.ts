@@ -27,6 +27,7 @@ export const GroupBySupplyResponse = Type.Object({
 
 export async function groupBySupply() {
     const sql = fs.readFileSync("./sql/groupBySupply.sql", "utf-8");
+    console.log(sql)
     return query<GroupBySupply>({query: sql});
 }
 

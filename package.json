@@ -21,7 +21,7 @@
     }
   },
   "scripts": {
-    "start": "bun bin/cli.ts",
+    "start": "bun bin/hono.ts",
     "dev": "bun --watch bin/cli.ts",
     "test": "bun test",
     "posttest": "tsc --noEmit",
