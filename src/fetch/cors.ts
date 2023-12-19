@@ -2,13 +2,15 @@ import { BunFile } from "bun";
 
 export const CORS_HEADERS = new Headers({
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Credentials": "true",
+  "Access-Control-Allow-Methods": 'GET, POST, OPTIONS, DELETE, PATCH, PUT, HEAD',
+  "Access-Control-Allow-Headers": 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization',
 });
+
 export const JSON_HEADERS = new Headers({ "Content-Type": "application/json" });
 export const TEXT_HEADERS = new Headers({ "Content-Type": "text/plain" });
 
-export const BadRequest = toText("Bad Request", 400);
+export const BadRequest = (message = "Bad Request") => toText(message, 400);
 export const NotFound = toText("Not Found", 404);
 export const InternalServerError = toText("Internal Server Error", 500);
 

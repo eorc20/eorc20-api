@@ -4,11 +4,14 @@ import { Static, Type } from "@sinclair/typebox";
 import { Address } from "viem";
 
 export const GroupTokensByAddress = Type.Object({
-    tick: Type.String({example: 'eoss'}),
-    address: Type.String({example: '0x64100aed32814e60604611fd4d860edf81234567'}),
-    percentage: Type.Number({example: '0.0005040476190475998'}),
-    amount: Type.Number({example: '105850000'}),
+    address: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
+    amount: Type.String({example: "123760000"}),
+    last_updated: Type.String({example: "2023-12-09 08:22:41",}),
+    tick: Type.String({example: "eoss",}),
+    tick_created: Type.String({example: "2023-12-09 06:44:52",}),
+    tick_id: Type.String({example: "0x120708f753e431bdfba5b7c6e58c8ea3b6375078648e48d8e354cac5f8c4ba6a"}),
 })
+
 export type GroupTokensByAddress = Static<typeof GroupTokensByAddress>
 
 export const groupTokensByAddressResponse = Type.Object({

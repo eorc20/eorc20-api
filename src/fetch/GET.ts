@@ -1,7 +1,7 @@
 import { file } from "bun";
 import swaggerFavicon from "../../swagger/favicon.png";
 import swaggerHtml from "../../swagger/index.html";
-import { NotFound, toFile, toJSON } from "./cors.js";
+import { BadRequest, NotFound, toFile, toJSON } from "./cors.js";
 import { openapi } from "./openapi.js";
 import health from "./health.js";
 import { metrics } from "../prometheus.js";
@@ -24,7 +24,10 @@ export default async function (req: Request) {
   // endpoints
   if (pathname === "/supply") return toJSON(await groupBySupply());
   if (pathname === "/holders") return toJSON(await groupByHolders());
-  if (pathname === "/tokens" && address) return toJSON(await groupTokensByAddress(address));
+  if (pathname === "/tokens") {
+    if ( address ) return toJSON(await groupTokensByAddress(address));
+    else return BadRequest("[address] is required as search params");
+  }
 
   return NotFound;
 }

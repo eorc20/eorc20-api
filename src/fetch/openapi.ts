@@ -65,6 +65,27 @@ export async function openapi() {
         },
       },
     })
+    .addPath("/tokens", {
+      get: {
+        tags: [TAGS.USAGE],
+        parameters: [
+          {
+            name: "address",
+            in: "query",
+            description: "EOS EVM address",
+            required: true,
+            schema: { type: "string", example: "0x653ebe1666f1179b992e40c2a71859c01230d424" },
+          },
+        ],
+        summary: "Get tokens from address",
+        responses: {
+          200: {
+            description: "List of tokens from address",
+            content: { "application/json": { schema: GroupByHoldersResponse }},
+          },
+        },
+      },
+    })
     .addPath("/health", {
       get: {
         tags: [TAGS.HEALTH],
