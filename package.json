@@ -31,6 +31,7 @@
     "@clickhouse/client-web": "latest",
     "@sinclair/typebox": "latest",
     "dotenv": "latest",
+    "hono": "^3.11.8",
     "openapi3-ts": "latest",
     "prom-client": "latest",
     "viem": "latest"
