@@ -1,10 +1,11 @@
 import { BunFile } from "bun";
 
 export const CORS_HEADERS = new Headers({
-  "access-control-allow-origin": "*",
-  "access-control-allow-credentials": "true",
-  "access-control-allow-methods": 'GET,POST,OPTIONS,DELETE,PATCH,PUT,HEAD',
-  "access-control-allow-headers": 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization',
+  "Referrer-Policy": "no-referrer",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Credentials": "true",
+  "Access-Control-Allow-Methods": 'GET,POST,OPTIONS,DELETE,PATCH,PUT,HEAD',
+  "Access-Control-Allow-Headers": 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization',
 });
 
 export const JSON_HEADERS = new Headers({ "Content-Type": "application/json" });
