@@ -1,3 +1,4 @@
+import { QueryParams } from "@clickhouse/client-web";
 import { client } from "./createClient.js";
 
 interface QueryResponseMeta {
@@ -18,8 +19,8 @@ export interface QueryResponse<T = unknown> {
     statistics: QueryResponseStatistics,
 }
 
-export async function query<T>(sql: string) {
-    const response = await client.query({ query: sql });
+export async function query<T>(params: QueryParams) {
+    const response = await client.query(params);
     const json = await response.json();
     return json as QueryResponse<T>;
 }

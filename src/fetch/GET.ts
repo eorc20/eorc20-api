@@ -7,9 +7,12 @@ import health from "./health.js";
 import { metrics } from "../prometheus.js";
 import { groupBySupply } from "../../sql/groupBySupply.js";
 import { groupByHolders } from "../../sql/groupByHolders.js";
+import { groupTokensByAddress } from "../../sql/groupTokensByAddress.js";
+import { Address } from "viem";
 
 export default async function (req: Request) {
-  const { pathname } = new URL(req.url);
+  const { pathname, searchParams } = new URL(req.url);
+  const address = searchParams.get("address") as Address | null;
 
   // internal
   if (pathname === "/") return toFile(file(swaggerHtml));
@@ -21,6 +24,7 @@ export default async function (req: Request) {
   // endpoints
   if (pathname === "/supply") return toJSON(await groupBySupply());
   if (pathname === "/holders") return toJSON(await groupByHolders());
+  if (pathname === "/tokens" && address) return toJSON(await groupTokensByAddress(address));
 
   return NotFound;
 }
