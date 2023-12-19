@@ -6,6 +6,8 @@ SELECT
   first_value(timestamp) as deploy_timestamp,
   last_value(block_number) as last_block_number,
   last_value(timestamp) as last_timestamp,
+  last_value(deploy.lim) as limit_per_mint,
+  0 as decimal,
   uniq(from_address) as holders,
   sum(toUInt64(amt)) as active_supply,
   toUInt64(first_value(max)) as max_supply,
