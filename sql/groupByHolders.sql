@@ -1,10 +1,11 @@
--- group token holders by ticker --
 SELECT
-    owner,
+    last_value(from_address) as address,
     tick,
-    sum(amt) as tokens
-FROM operations_mint
-INNER JOIN operations_deploy
-ON operations_deploy.tick = operations_mint.tick
-GROUP BY (owner, tick)
-ORDER BY tokens DESC;
+    sum(toUInt64(mint.amt) / toUInt64(deploy.max)) as percentage,
+    sum(toUInt64(mint.amt)) as amount
+FROM mint
+INNER JOIN deploy
+ON deploy.tick = mint.tick AND deploy.lim = mint.amt
+GROUP BY (from_address, tick)
+ORDER BY amount DESC
+LIMIT 500;

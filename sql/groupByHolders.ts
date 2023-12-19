@@ -1,24 +1,23 @@
 import fs from "fs";
 import { query } from "../src/clickhouse/query.js";
+import { Static, Type } from "@sinclair/typebox";
 
-interface GroupByHolders {
-    tick: string;               // 'eoss',
-    protocol: string;           // 'eorc20',
-    deploy_timestamp: string;   // '2023-12-09 06:44:52',
-    last_block_number: number;   // 21443557,
-    last_timestamp: string;     // '2023-12-09 06:50:45',
-    holders: string;            // '113336280',
-    active_supply: string;      // '1133545550000',
-    max_supply: string;         // '210000000000',
-    progress: string;           //  5.3978359523809525,
-    transactions: string;       //  '113336280'
-}
+export const GroupByHolders = Type.Object({
+    tick: Type.String({example: 'eoss'}),
+    address: Type.String({example: '0x64100aed32814e60604611fd4d860edf81234567'}),
+    percentage: Type.Number({example: '0.0005040476190475998'}),
+    amount: Type.Number({example: '105850000'}),
+})
+export type GroupByHolders = Static<typeof GroupByHolders>
+
+export const GroupByHoldersResponse = Type.Object({
+    rows: Type.Number({example: 500}),
+    data: Type.Array(GroupByHolders),
+})
 
 export async function groupByHolders() {
     const sql = fs.readFileSync("./sql/groupByHolders.sql", "utf-8");
-    const response = await query<GroupByHolders>(sql);
-    console.log(response);
-    return response.data;
+    return query<GroupByHolders>(sql);
 }
 
-groupByHolders()
+// groupByHolders().then(console.log);
