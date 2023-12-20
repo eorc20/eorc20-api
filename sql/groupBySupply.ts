@@ -48,4 +48,4 @@ export async function groupBySupply() {
     return mints;
 }
 
-groupBySupply().then(console.log)
+// groupBySupply().then(console.log)
