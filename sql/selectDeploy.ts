@@ -4,9 +4,12 @@ import { Static, Type } from "@sinclair/typebox";
 
 export const SelectDeploy = Type.Object({
     tick: Type.String(),
-    active_supply: Type.Number(),
-    transactions: Type.Number(),
-    holders: Type.Number(),
+    deploy_address: Type.String(),
+    deploy_timestamp: Type.String(),
+    deploy_block_number: Type.String(),
+    max_supply: Type.String(),
+    limit_by_amount: Type.String(),
+    protocol: Type.String(),
 })
 export type SelectDeploy = Static<typeof SelectDeploy>
 

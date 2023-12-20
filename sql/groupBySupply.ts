@@ -22,13 +22,13 @@ export const GroupBySupply = Type.Object({
     max_supply: Type.String({example: '210000000000'}),
 
     // combined
-    progress: Type.String({example: '0.541'}),
+    progress: Type.Number({example: 0.5413}),
 })
 export type GroupBySupply = Static<typeof GroupBySupply>
 
 export const GroupBySupplyResponse = Type.Object({
-    rows: Type.Number({example: 1}),
     data: Type.Array(GroupBySupply),
+    rows: Type.Number({example: 1}),
 })
 
 export async function groupBySupply() {
@@ -37,15 +37,32 @@ export async function groupBySupply() {
 
     const data = deploy.data.map((deploy) => {
         const mint = mints.data.find((mint) => mint.tick === deploy.tick);
+        const active_supply = Number(mint?.active_supply || '0');
+        const holders = Number(mint?.holders || '0');
+        const transactions = Number(mint?.transactions || '0');
+        const max_supply = Number(deploy.max_supply);
+        const progress = Number((active_supply / max_supply).toFixed(4));
+        const last_timestamp = mint?.last_timestamp || deploy.deploy_timestamp;
+        const last_block_number = mint?.last_block_number || deploy.deploy_block_number;
+        const limit_by_amount = Number(deploy.limit_by_amount);
+
         return {
             ...deploy,
-            ...mint,
+            limit_by_amount,
+            transactions,
+            holders,
+            active_supply,
+            max_supply,
+            progress,
+            last_timestamp,
+            last_block_number,
         };
     });
-    mints.data = data;
-    mints.rows = data.length;
-    mints.meta = [];
-    return mints;
+
+    return {
+        data,
+        rows: data.length,
+    };
 }
 
 // groupBySupply().then(console.log)

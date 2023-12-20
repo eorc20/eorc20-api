@@ -5,9 +5,11 @@ import { Static, Type } from "@sinclair/typebox";
 
 export const GroupByMint = Type.Object({
     tick: Type.String(),
-    active_supply: Type.Number(),
-    transactions: Type.Number(),
-    holders: Type.Number(),
+    active_supply: Type.String(),
+    transactions: Type.String(),
+    holders: Type.String(),
+    last_timestamp: Type.String(),
+    last_block_number: Type.Number()
 })
 export type GroupByMint = Static<typeof GroupByMint>
 
