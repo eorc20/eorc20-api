@@ -37,10 +37,11 @@ export async function groupBySupply() {
 
     const data = deploy.data.map((deploy) => {
         const mint = mints.data.find((mint) => mint.tick === deploy.tick);
-        const active_supply = Number(mint?.active_supply || '0');
+        const max_supply = Number(deploy.max_supply);
+        let active_supply = Number(mint?.active_supply || '0');
+        if ( active_supply > max_supply ) active_supply = max_supply;
         const holders = Number(mint?.holders || '0');
         const transactions = Number(mint?.transactions || '0');
-        const max_supply = Number(deploy.max_supply);
         const progress = Number((active_supply / max_supply).toFixed(4));
         const last_timestamp = mint?.last_timestamp || deploy.deploy_timestamp;
         const last_block_number = mint?.last_block_number || deploy.deploy_block_number;
@@ -65,4 +66,4 @@ export async function groupBySupply() {
     };
 }
 
-// groupBySupply().then(console.log)
+groupBySupply().then(console.log)
