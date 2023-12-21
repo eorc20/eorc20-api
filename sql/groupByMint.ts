@@ -21,7 +21,8 @@ export const groupByMintResponse = Type.Object({
 export async function groupByMint() {
     const sql = fs.readFileSync("./sql/groupByMint.sql", "utf-8");
     console.log(sql)
-    return query<GroupByMint>({query: sql});
+    const { data, rows } = await query<GroupByMint>({query: sql});
+    return { data, rows }
 }
 
 // groupByMint().then(console.log);

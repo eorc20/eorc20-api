@@ -21,7 +21,8 @@ export const SelectDeployResponse = Type.Object({
 export async function selectDeploy() {
     const sql = fs.readFileSync("./sql/selectDeploy.sql", "utf-8");
     console.log(sql)
-    return query<SelectDeploy>({query: sql});
+    const { data, rows } = await query<SelectDeploy>({query: sql});
+    return { data, rows }
 }
 
 // selectDeploy().then(console.log);

@@ -17,7 +17,8 @@ export const GroupByHoldersResponse = Type.Object({
 
 export async function groupByHolders() {
     const sql = fs.readFileSync("./sql/groupByHolders.sql", "utf-8");
-    return query<GroupByHolders>({query: sql});
+    const { data, rows } = await query<GroupByHolders>({query: sql});
+    return { data, rows }
 }
 
 // groupByHolders().then(console.log);

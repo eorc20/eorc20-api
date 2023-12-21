@@ -60,10 +60,7 @@ export async function groupBySupply() {
         };
     });
 
-    return {
-        data,
-        rows: data.length,
-    };
+    return { data, rows: data.length };
 }
 
 // groupBySupply().then(console.log)

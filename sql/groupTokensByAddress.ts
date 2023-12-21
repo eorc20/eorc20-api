@@ -21,7 +21,8 @@ export const groupTokensByAddressResponse = Type.Object({
 
 export async function groupTokensByAddress(address: Address) {
     const sql = fs.readFileSync("./sql/groupTokensByAddress.sql", "utf-8");
-    return query<GroupTokensByAddress>({query: sql, query_params: {address: address.toLowerCase()}});
+    const { data, rows } = await query<GroupTokensByAddress>({query: sql, query_params: {address: address.toLowerCase()}});
+    return { data, rows }
 }
 
 // groupTokensByAddress("0x64100aed32814e60604611fd4d860edf81234567").then(console.log);
