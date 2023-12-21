@@ -66,4 +66,4 @@ export async function groupBySupply() {
     };
 }
 
-groupBySupply().then(console.log)
+// groupBySupply().then(console.log)
