@@ -24,4 +24,4 @@ export async function groupTokensByAddress(address: Address) {
     return query<GroupTokensByAddress>({query: sql, query_params: {address}});
 }
 
-groupTokensByAddress("0x64100aed32814e60604611fd4d860edf81234567").then(console.log);
+// groupTokensByAddress("0x64100aed32814e60604611fd4d860edf81234567").then(console.log);

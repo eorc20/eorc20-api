@@ -5,7 +5,7 @@ import { Static, Type } from "@sinclair/typebox";
 export const GroupBySupply = Type.Object({
     // mint
     tick: Type.String({example: 'eoss'}),
-    decimals: Type.Number({example: '4'}),
+    decimals: Type.Number({example: '0'}),
     holders: Type.String({example: '113336280'}),
     active_supply: Type.String({example: '1133545550000'}),
     transactions: Type.String({example:  '113336280'}),
