@@ -1,11 +1,10 @@
 SELECT
-    last_value(from) as address,
+    from as address,
     tick,
-    sum(toUInt64(mint.amt) / toUInt64(deploy.max)) as percentage,
-    sum(toUInt64(mint.amt)) as amount
-FROM mint
-INNER JOIN deploy
-ON deploy.tick = mint.tick AND deploy.lim = mint.amt
-GROUP BY (from, tick)
+    amt as amount,
+    (SELECT max FROM deploy WHERE deploy.tick = tick LIMIT 1) as max_supply,
+    (amt / max_supply) as percentage
+FROM mint_sum_mv
+WHERE tick = 'eoss'
 ORDER BY amount DESC
 LIMIT 500;
