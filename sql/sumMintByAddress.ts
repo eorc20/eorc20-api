@@ -28,4 +28,4 @@ export async function sumMintByAddress(from: Address) {
     return query<SumMintByAddress>({query: sql, query_params: {address: from.toLowerCase()}});
 }
 
-// sumMintByAddress("0x194b692235a0f7ea22f1aac68a8ca11d8eb6b2d4").then(console.log);
+// sumMintByAddress("0x64453a52C311Cd01278DfEA79d74b8c096121344").then(console.log);

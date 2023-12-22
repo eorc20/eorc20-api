@@ -53,7 +53,7 @@ export async function sumByAddress(address: Address) {
     }
 
     // transfer receiver (+positive balance)
-    for ( const row of transfer_from.data ) {
+    for ( const row of transfer_to.data ) {
         transactions[row.tick] += Number(row.transactions);
         amount[row.tick] += Number(row.amt);
     }
@@ -73,4 +73,4 @@ export async function sumByAddress(address: Address) {
     return { data, rows: data.length }
 }
 
-// sumByAddress("0x354d44ad5ecbe2b6244a63b24babff9aa5200303").then(console.log);
+sumByAddress("0x64453a52C311Cd01278DfEA79d74b8c096121344").then(console.log);
