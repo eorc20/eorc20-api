@@ -7,7 +7,7 @@ import health from "./health.js";
 import { metrics } from "../prometheus.js";
 import { groupBySupply } from "../../sql/groupBySupply.js";
 import { groupByHolders } from "../../sql/groupByHolders.js";
-import { groupTokensByAddress } from "../../sql/groupTokensByAddress.js";
+import { sumMintByAddress } from "../../sql/sumMintByAddress.js";
 import { Address } from "viem";
 
 export default async function (req: Request) {
@@ -17,15 +17,15 @@ export default async function (req: Request) {
   // internal
   if (pathname === "/") return toFile(file(swaggerHtml));
   if (pathname === "/favicon.png") return toFile(file(swaggerFavicon));
+  if (pathname === "/openapi") return toJSON(await openapi());
   if (pathname === "/health") return health();
   if (pathname === "/metrics") return metrics();
-  if (pathname === "/openapi") return toJSON(await openapi());
 
   // endpoints
   if (pathname === "/supply") return toJSON(await groupBySupply());
   if (pathname === "/holders") return toJSON(await groupByHolders());
   if (pathname === "/tokens") {
-    if ( address ) return toJSON(await groupTokensByAddress(address));
+    if ( address ) return toJSON(await sumMintByAddress(address));
     else return BadRequest("[address] is required as search params");
   }
 
