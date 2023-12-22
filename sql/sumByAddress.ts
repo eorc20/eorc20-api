@@ -25,8 +25,8 @@ export async function sumByAddress(address: Address) {
     const transfer_from = await sumTransferByAddress({from: address});
     const transfer_to = await sumTransferByAddress({to: address});
 
-    let transactions: {[ticker: string]: number } = {};
-    let amount: {[ticker: string]: number } = {};
+    let map_transactions: {[ticker: string]: number } = {};
+    let map_amount: {[ticker: string]: number } = {};
 
     // get tickers
     const tickers = new Set<string>()
@@ -36,33 +36,39 @@ export async function sumByAddress(address: Address) {
 
     // initialize
     for ( const ticker of tickers ) {
-        transactions[ticker] = 0;
-        amount[ticker] = 0;
+        map_transactions[ticker] = 0;
+        map_amount[ticker] = 0;
     }
 
     // mint
     for ( const row of mint.data ) {
-        transactions[row.tick] += Number(row.transactions);
-        amount[row.tick] += Number(row.amt);
+        map_transactions[row.tick] += Number(row.transactions);
+        map_amount[row.tick] += Number(row.amt);
     }
 
     // transfer sender (-negative balance)
     for ( const row of transfer_from.data ) {
-        transactions[row.tick] += Number(row.transactions);
-        amount[row.tick] -= Number(row.amt);
+        map_transactions[row.tick] += Number(row.transactions);
+        map_amount[row.tick] -= Number(row.amt);
     }
 
     // transfer receiver (+positive balance)
     for ( const row of transfer_to.data ) {
-        transactions[row.tick] += Number(row.transactions);
-        amount[row.tick] += Number(row.amt);
+        map_transactions[row.tick] += Number(row.transactions);
+        map_amount[row.tick] += Number(row.amt);
     }
     const data: SumByAddress[] = [];
     for ( const ticker of tickers ) {
+        let amount = map_amount[ticker];
+        if ( amount < 0 ) {
+            console.error("amount < 0", {address, amount})
+            amount = 0;
+        }
+
         data.push({
             address,
-            amount: amount[ticker],
-            transactions: transactions[ticker],
+            amount,
+            transactions: map_transactions[ticker],
             // last_updated: new Date().toISOString(),
             tick: ticker,
             // tick_created: new Date().toISOString(),
@@ -73,4 +79,4 @@ export async function sumByAddress(address: Address) {
     return { data, rows: data.length }
 }
 
-sumByAddress("0x64453a52C311Cd01278DfEA79d74b8c096121344").then(console.log);
+// sumByAddress("0x194b692235a0f7ea22f1aac68a8ca11d8eb6b2d4").then(console.log);
