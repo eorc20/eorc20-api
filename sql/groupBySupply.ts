@@ -11,7 +11,7 @@ export const GroupBySupply = Type.Object({
     transactions: Type.String({example:  '113336280'}),
 
     // extras
-    last_block_number: Type.String({example: 21443557}),
+    // last_block_number: Type.String({example: 21443557}),
     last_timestamp: Type.String({example: '2023-12-09 06:50:45'}),
 
     // deploy
@@ -44,7 +44,7 @@ export async function groupBySupply() {
         const transactions = Number(mint?.transactions || '0');
         const progress = Number((active_supply / max_supply).toFixed(4));
         const last_timestamp = mint?.last_timestamp || deploy.deploy_timestamp;
-        const last_block_number = mint?.last_block_number || deploy.deploy_block_number;
+        // const last_block_number = mint?.last_block_number || deploy.deploy_block_number;
         const limit_by_amount = Number(deploy.limit_by_amount);
 
         return {
@@ -56,7 +56,7 @@ export async function groupBySupply() {
             max_supply,
             progress,
             last_timestamp,
-            last_block_number,
+            // last_block_number,
         };
     });
 

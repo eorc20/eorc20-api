@@ -8,8 +8,8 @@ export const GroupByMint = Type.Object({
     active_supply: Type.String(),
     transactions: Type.String(),
     holders: Type.String(),
-    last_timestamp: Type.String(),
-    last_block_number: Type.Number()
+    first_timestamp: Type.String(),
+    last_timestamp: Type.String()
 })
 export type GroupByMint = Static<typeof GroupByMint>
 
