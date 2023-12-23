@@ -6,6 +6,7 @@ export const GroupByHolders = Type.Object({
     tick: Type.String({example: 'eoss'}),
     address: Type.String({example: '0x64100aed32814e60604611fd4d860edf81234567'}),
     percentage: Type.Number({example: '0.0005040476190475998'}),
+    max_supply: Type.Number({example: '0.0001'}),
     amount: Type.Number({example: '105850000'}),
 })
 export type GroupByHolders = Static<typeof GroupByHolders>
@@ -21,4 +22,4 @@ export async function groupByHolders() {
     return { data, rows }
 }
 
-// groupByHolders().then(console.log);
+groupByHolders().then(console.log);

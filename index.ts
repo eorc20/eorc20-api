@@ -4,7 +4,7 @@ import { cors } from 'hono/cors'
 import { Hono } from 'hono'
 import { Address } from "viem";
 import { groupBySupply } from './sql/groupBySupply.js'
-import { groupByHolders } from './sql/groupByHolders.js'
+import { holders } from './sql/holders.js'
 import { sumByAddress } from './sql/sumByAddress.js'
 import { toFile } from './src/fetch/cors.js';
 import swaggerHtml from "./swagger/index.html";
@@ -20,7 +20,7 @@ app.get('/supply', async (c) => {
 })
 
 app.get('/holders', async (c) => {
-    const response = await groupByHolders()
+    const response = await holders()
     return c.json(response);
 })
 
