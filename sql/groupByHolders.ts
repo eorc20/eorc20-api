@@ -22,4 +22,4 @@ export async function groupByHolders() {
     return { data, rows }
 }
 
-groupByHolders().then(console.log);
+// groupByHolders().then(console.log);

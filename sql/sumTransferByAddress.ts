@@ -34,4 +34,4 @@ export async function sumTransferByAddress(address: Address) {
     return query<SumTransferByAddress>({query: sql, query_params: {address}});
 }
 
-// sumTransferByAddress("0xaa2F34E41B397aD905e2f48059338522D05CA534").then(console.log);
+// sumTransferByAddress("0xbbbbbbbbbbbbbbbbbbbbbbbb55318063a0000000").then(console.log);

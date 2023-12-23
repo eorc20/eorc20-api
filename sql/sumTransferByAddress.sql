@@ -13,6 +13,6 @@ SELECT
     first_value(block_number) as first_block_number,
     last_value(block_number) as last_block_number
 FROM transfer
-WHERE id IN (SELECT id FROM approve WHERE op = 'transfer' AND approve.id = id) AND
+WHERE id IN (SELECT id FROM approve_transfer WHERE approve_transfer.id = id) AND
 transfer.from = address OR transfer.to = address
 GROUP BY (from, to, tick)
