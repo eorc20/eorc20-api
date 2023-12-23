@@ -46,7 +46,7 @@ export async function holders() {
     }
     data.sort((a, b) => b.amount - a.amount);
     data.filter((a) => a.amount > 0);
-    data.splice(5);
+    data.splice(500);
     return {data, rows: data.length};
 }
 
