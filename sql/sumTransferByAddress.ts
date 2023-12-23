@@ -1,15 +1,24 @@
+import fs from "fs";
 import { query } from "../src/clickhouse/query.js";
 import { Static, Type } from "@sinclair/typebox";
 import { Address } from "viem";
 
 export const SumTransferByAddress = Type.Object({
+    address: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
+    p: Type.String({example: "eorc20"}),
+    op: Type.String({example: "transfer"}),
+    tick: Type.String({example: "eoss"}),
+
     from: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
-    to: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
-    amt: Type.String({example: "123760000"}),
-    tick: Type.String({example: "eoss",}),
-    transactions: Type.Number({example: 1000}),
-    first_timestamp: Type.String({example: "2023-12-09 08:22:41",}),
-    last_timestamp: Type.String({example: "2023-12-09 06:44:52",}),
+    to: Type.String({example: "0x6d409f58a965ef0b3857465496d17d64820a78ba",}),
+    amt: Type.String({example: "100"}),
+
+    balance_change: Type.String({example: "-100"}),
+    transactions: Type.Number({example: 1}),
+    first_timestamp: Type.String({example: "2023-12-22 22:53:11"}),
+    last_timestamp: Type.String({example: "2023-12-22 22:53:11"}),
+    first_block_number: Type.String({example: 22624503}),
+    last_block_number: Type.String({example: 22624503}),
 })
 
 export type SumTransferByAddress = Static<typeof SumTransferByAddress>
@@ -19,25 +28,10 @@ export const sumTransferByAddressResponse = Type.Object({
     data: Type.Array(SumTransferByAddress),
 })
 
-
-export async function sumTransferByAddress(options: {from?: Address, to?: Address}) {
-    let sql = `
-        SELECT *
-        FROM transfer_sum_mv
-    `
-    const { from, to } = options;
-    if ( from && to ) throw new Error("You can only specify one address");
-    if ( from ) {
-        sql += `WHERE from = {address: String}`
-        console.log("sumTransferByAddress", {from, to, sql});
-        return query<SumTransferByAddress>({query: sql, query_params: {address: from.toLowerCase()}});
-    }
-    if ( to ) {
-        sql += `WHERE to = {address: String}`
-        console.log("sumTransferByAddress", {from, to, sql});
-        return query<SumTransferByAddress>({query: sql, query_params: {address: to.toLowerCase()}});
-    }
-    throw new Error("You must specify an address");
+export async function sumTransferByAddress(address: Address) {
+    const sql = fs.readFileSync("./sql/sumTransferByAddress.sql", "utf-8");
+    console.log("sumTransferByAddress", {address, sql});
+    return query<SumTransferByAddress>({query: sql, query_params: {address}});
 }
 
-// sumTransferByAddress({from: "0x194b692235a0f7ea22f1aac68a8ca11d8eb6b2d4"}).then(console.log);
+// sumTransferByAddress("0xaa2F34E41B397aD905e2f48059338522D05CA534").then(console.log);

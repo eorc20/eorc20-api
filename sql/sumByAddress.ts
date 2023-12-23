@@ -22,8 +22,7 @@ export const sumByAddressResponse = Type.Object({
 
 export async function sumByAddress(address: Address) {
     const mint = await sumMintByAddress(address);
-    const transfer_from = await sumTransferByAddress({from: address});
-    const transfer_to = await sumTransferByAddress({to: address});
+    const transfer = await sumTransferByAddress(address);
 
     let map_transactions: {[ticker: string]: number } = {};
     let map_amount: {[ticker: string]: number } = {};
@@ -31,8 +30,7 @@ export async function sumByAddress(address: Address) {
     // get tickers
     const tickers = new Set<string>()
     for ( const row of mint.data ) tickers.add(row.tick);
-    for ( const row of transfer_from.data ) tickers.add(row.tick);
-    for ( const row of transfer_to.data ) tickers.add(row.tick);
+    for ( const row of transfer.data ) tickers.add(row.tick);
 
     // initialize
     for ( const ticker of tickers ) {
@@ -46,16 +44,10 @@ export async function sumByAddress(address: Address) {
         map_amount[row.tick] += Number(row.amt);
     }
 
-    // transfer sender (-negative balance)
-    for ( const row of transfer_from.data ) {
+    // transfer (balance change)
+    for ( const row of transfer.data ) {
         map_transactions[row.tick] += Number(row.transactions);
-        map_amount[row.tick] -= Number(row.amt);
-    }
-
-    // transfer receiver (+positive balance)
-    for ( const row of transfer_to.data ) {
-        map_transactions[row.tick] += Number(row.transactions);
-        map_amount[row.tick] += Number(row.amt);
+        map_amount[row.tick] += Number(row.balance_change);
     }
     const data: SumByAddress[] = [];
     for ( const ticker of tickers ) {
@@ -79,4 +71,4 @@ export async function sumByAddress(address: Address) {
     return { data, rows: data.length }
 }
 
-// sumByAddress("0x194b692235a0f7ea22f1aac68a8ca11d8eb6b2d4").then(console.log);
+// sumByAddress("0xaa2F34E41B397aD905e2f48059338522D05CA534").then(console.log);
