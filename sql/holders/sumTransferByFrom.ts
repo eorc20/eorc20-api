@@ -15,7 +15,7 @@ export const sumTransferByFromResponse = Type.Object({
 })
 
 export async function sumTransferByFrom() {
-    const sql = fs.readFileSync("./sql/sumTransferByFrom.sql", "utf-8");
+    const sql = fs.readFileSync("./sql/holders/sumTransferByFrom.sql", "utf-8");
     const { data, rows } = await query<SumTransferByFrom>({query: sql});
     return { data, rows }
 }
