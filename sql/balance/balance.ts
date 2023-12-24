@@ -35,6 +35,13 @@ export function getAmount(response: QueryResponse<SumTransfer>) {
     return 0;
 }
 
+export function getTransactions(response: QueryResponse<SumTransfer>) {
+    if ( response.data.length > 0 ) {
+        return Number(response.data[0].transactions);
+    }
+    return 0;
+}
+
 export async function balance(address: Address, tick: string, block_number: number) {
     // queries
     const mintFrom = getAmount(await sumMintFrom(address, tick));

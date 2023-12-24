@@ -2,13 +2,16 @@ import { Static, Type } from "@sinclair/typebox";
 import { Address } from "viem";
 import { sumMintByAddress } from "./sumMintByAddress.js";
 import { sumTransferByAddress } from "./sumTransferByAddress.js";
+import { getAmount, getTransactions, sumMintFrom, sumTransferFrom, sumTransferTo } from "../balance/balance.js";
 
 export const Tokens = Type.Object({
     address: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
     amount: Type.Number({example: 123760000}),
     transactions: Type.Number({example: 103}),
-    // last_updated: Type.String({example: "2023-12-09 08:22:41",}),
     tick: Type.String({example: "eoss",}),
+    mintFrom: Type.Number({example: 123760000}),
+    transferFrom: Type.Number({example: 123760000}),
+    transferTo: Type.Number({example: 123760000}),
     // tick_created: Type.String({example: "2023-12-09 06:44:52",}),
     // tick_id: Type.String({example: "0x120708f753e431bdfba5b7c6e58c8ea3b6375078648e48d8e354cac5f8c4ba6a"}),
 })
@@ -21,54 +24,27 @@ export const TokensResponse = Type.Object({
 })
 
 export async function tokens(address: Address) {
-    const mint = await sumMintByAddress(address);
-    const transfer = await sumTransferByAddress(address);
+    const tick = 'eoss';
+    const block_number = 9999999999999;
+    // queries
+    const mintFrom = await sumMintFrom(address, tick);
+    const transferFrom = await sumTransferFrom(address, tick, block_number);
+    const transferTo = await sumTransferTo(address, tick, block_number);
+    const amount = getAmount(mintFrom) - getAmount(transferFrom) + getAmount(transferTo)
+    const transactions = getTransactions(mintFrom) + getTransactions(transferFrom) + getTransactions(transferTo)
 
-    let map_transactions: {[ticker: string]: number } = {};
-    let map_amount: {[ticker: string]: number } = {};
-
-    // get tickers
-    const tickers = new Set<string>()
-    for ( const row of mint.data ) tickers.add(row.tick);
-    for ( const row of transfer.data ) tickers.add(row.tick);
-
-    // initialize
-    for ( const ticker of tickers ) {
-        map_transactions[ticker] = 0;
-        map_amount[ticker] = 0;
-    }
-
-    // mint
-    for ( const row of mint.data ) {
-        map_transactions[row.tick] += Number(row.transactions);
-        map_amount[row.tick] += Number(row.amt);
-    }
-
-    // transfer (balance change)
-    for ( const row of transfer.data ) {
-        map_transactions[row.tick] += Number(row.transactions);
-        map_amount[row.tick] += Number(row.balance_change);
-    }
-    const data: Tokens[] = [];
-    for ( const ticker of tickers ) {
-        let amount = map_amount[ticker];
-        if ( amount < 0 ) {
-            console.error("amount < 0", {address, amount})
-            amount = 0;
-        }
-
-        data.push({
+    return {
+        data: [{
             address,
+            tick,
             amount,
-            transactions: map_transactions[ticker],
-            // last_updated: new Date().toISOString(),
-            tick: ticker,
-            // tick_created: new Date().toISOString(),
-            // tick_id
-        });
+            transactions,
+            mintFrom: getAmount(mintFrom),
+            transferFrom: getAmount(transferFrom),
+            transferTo: getAmount(transferTo)
+        }],
+        rows: 1
     }
-
-    return { data, rows: data.length }
 }
 
-// sumByAddress("0xbbbbbbbbbbbbbbbbbbbbbbbb55318063a0000000").then(console.log);
+// tokens("0xbBBBbBbbbBBBBbbbbbbBBbBB5530EA015b900000").then(console.log);
