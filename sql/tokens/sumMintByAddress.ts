@@ -1,4 +1,4 @@
-import { query } from "../src/clickhouse/query.js";
+import { query } from "../../src/clickhouse/query.js";
 import { Static, Type } from "@sinclair/typebox";
 import { Address } from "viem";
 

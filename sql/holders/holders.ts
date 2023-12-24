@@ -18,7 +18,6 @@ export const HoldersResponse = Type.Object({
 })
 
 export async function holders() {
-
     let max_supply = 0;
     const balances = new Map<string, number>();
     for ( const row of (await groupByHolders()).data) {

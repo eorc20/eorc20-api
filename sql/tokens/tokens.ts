@@ -3,7 +3,7 @@ import { Address } from "viem";
 import { sumMintByAddress } from "./sumMintByAddress.js";
 import { sumTransferByAddress } from "./sumTransferByAddress.js";
 
-export const SumByAddress = Type.Object({
+export const Tokens = Type.Object({
     address: Type.String({example: "0x64100aed32814e60604611fd4d860edf81234567",}),
     amount: Type.Number({example: 123760000}),
     transactions: Type.Number({example: 103}),
@@ -13,14 +13,14 @@ export const SumByAddress = Type.Object({
     // tick_id: Type.String({example: "0x120708f753e431bdfba5b7c6e58c8ea3b6375078648e48d8e354cac5f8c4ba6a"}),
 })
 
-export type SumByAddress = Static<typeof SumByAddress>
+export type Tokens = Static<typeof Tokens>
 
-export const sumByAddressResponse = Type.Object({
+export const TokensResponse = Type.Object({
     rows: Type.Number({example: 500}),
-    data: Type.Array(SumByAddress),
+    data: Type.Array(Tokens),
 })
 
-export async function sumByAddress(address: Address) {
+export async function tokens(address: Address) {
     const mint = await sumMintByAddress(address);
     const transfer = await sumTransferByAddress(address);
 
@@ -49,7 +49,7 @@ export async function sumByAddress(address: Address) {
         map_transactions[row.tick] += Number(row.transactions);
         map_amount[row.tick] += Number(row.balance_change);
     }
-    const data: SumByAddress[] = [];
+    const data: Tokens[] = [];
     for ( const ticker of tickers ) {
         let amount = map_amount[ticker];
         if ( amount < 0 ) {

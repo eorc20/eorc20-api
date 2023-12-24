@@ -1,5 +1,5 @@
 import fs from "fs";
-import { query } from "../src/clickhouse/query.js";
+import { query } from "../../src/clickhouse/query.js";
 import { Static, Type } from "@sinclair/typebox";
 
 export const GroupByHolders = Type.Object({

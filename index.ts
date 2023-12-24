@@ -3,19 +3,18 @@
 import { cors } from 'hono/cors'
 import { Hono } from 'hono'
 import { Address } from "viem";
-import { groupBySupply } from './sql/groupBySupply.js'
-import { holders } from './sql/holders.js'
-import { sumByAddress } from './sql/sumByAddress.js'
-import { toFile } from './src/fetch/cors.js';
+import { supply } from './sql/supply/supply.js'
+import { holders } from './sql/holders/holders.js'
+import { tokens } from './sql/tokens/tokens.js'
 import swaggerHtml from "./swagger/index.html";
 import swaggerFavicon from "./swagger/favicon.png";
 import { file } from 'bun';
-import { openapi } from './src/fetch/openapi.js';
+import { openapi } from './src/openapi.js';
 
 const app = new Hono()
 app.use('/*', cors())
 app.get('/supply', async (c) => {
-    const response = await groupBySupply()
+    const response = await supply()
     return c.json(response);
 })
 
@@ -28,16 +27,16 @@ app.get('/tokens', async (c) => {
     const {searchParams} = new URL(c.req.url)
     const address = searchParams.get('address') as Address | null
     if ( !address ) return c.json({error: 'address is required'});
-    const response = await sumByAddress(address)
+    const response = await tokens(address)
     return c.json(response);
 })
 
 app.get('/', async (c) => {
-    return toFile(file(swaggerHtml));
+    return new Response(file(swaggerHtml));
 })
 
 app.get('/favicon.png', async () => {
-    return toFile(file(swaggerFavicon));
+    return new Response(file(swaggerFavicon));
 })
 
 app.get('/openapi', async (c) => {

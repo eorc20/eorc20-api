@@ -1,6 +1,9 @@
 {
   "private": true,
   "name": "eorc-api",
+  "description": "EORC-20 API",
+  "homepage": "https://github.com/pinax-network/eorc20-api",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
   "scripts": {

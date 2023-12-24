@@ -1,9 +1,10 @@
-import pkg from "../../package.json" assert { type: "json" };
+import pkg from "../package.json" assert { type: "json" };
 
 import { LicenseObject } from "openapi3-ts/oas30";
 import { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
-import { GroupBySupplyResponse } from "../../sql/groupBySupply.js";
-import { GroupByHoldersResponse } from "../../sql/groupByHolders.js";
+import { SupplyResponse } from "../sql/supply/supply.js";
+import { HoldersResponse } from "../sql/holders/holders.js";
+import { TokensResponse } from "../sql/tokens/tokens.js";
 
 const TAGS = {
   USAGE: "Usage",
@@ -48,7 +49,7 @@ export async function openapi() {
         responses: {
           200: {
             description: "List of ticker supply",
-            content: { "application/json": { schema: GroupBySupplyResponse }},
+            content: { "application/json": { schema: SupplyResponse }},
           },
         },
       },
@@ -60,7 +61,7 @@ export async function openapi() {
         responses: {
           200: {
             description: "List of token holders",
-            content: { "application/json": { schema: GroupByHoldersResponse }},
+            content: { "application/json": { schema: HoldersResponse }},
           },
         },
       },
@@ -81,7 +82,7 @@ export async function openapi() {
         responses: {
           200: {
             description: "List of tokens from address",
-            content: { "application/json": { schema: GroupByHoldersResponse }},
+            content: { "application/json": { schema: TokensResponse }},
           },
         },
       },

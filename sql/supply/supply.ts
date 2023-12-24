@@ -2,7 +2,7 @@ import { selectDeploy } from "./selectDeploy.js";
 import { groupByMint } from "./groupByMint.js";
 import { Static, Type } from "@sinclair/typebox";
 
-export const GroupBySupply = Type.Object({
+export const Supply = Type.Object({
     // mint
     tick: Type.String({example: 'eoss'}),
     decimals: Type.Number({example: '0'}),
@@ -24,14 +24,14 @@ export const GroupBySupply = Type.Object({
     // combined
     progress: Type.Number({example: 0.5413}),
 })
-export type GroupBySupply = Static<typeof GroupBySupply>
+export type Supply = Static<typeof Supply>
 
-export const GroupBySupplyResponse = Type.Object({
-    data: Type.Array(GroupBySupply),
+export const SupplyResponse = Type.Object({
+    data: Type.Array(Supply),
     rows: Type.Number({example: 1}),
 })
 
-export async function groupBySupply() {
+export async function supply() {
     const deploy = await selectDeploy();
     const mints = await groupByMint();
 
@@ -63,4 +63,4 @@ export async function groupBySupply() {
     return { data, rows: data.length };
 }
 
-// groupBySupply().then(console.log)
+// supply().then(console.log)
