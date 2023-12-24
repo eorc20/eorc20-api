@@ -6,6 +6,7 @@ import { Address } from "viem";
 import { supply } from './sql/supply/supply.js'
 import { holders } from './sql/holders/holders.js'
 import { tokens } from './sql/tokens/tokens.js'
+import { balance } from './sql/balance/balance.js'
 import swaggerHtml from "./swagger/index.html";
 import swaggerFavicon from "./swagger/favicon.png";
 import { file } from 'bun';
@@ -28,6 +29,18 @@ app.get('/tokens', async (c) => {
     const address = searchParams.get('address') as Address | null
     if ( !address ) return c.json({error: 'address is required'});
     const response = await tokens(address)
+    return c.json(response);
+})
+
+app.get('/balance', async (c) => {
+    const {searchParams} = new URL(c.req.url)
+    const address = searchParams.get('address') as Address | null
+    if ( !address ) return c.json({error: 'address is required'});
+    const tick = searchParams.get('tick') ?? "eoss"
+    if ( !tick ) return c.json({error: 'tick is required'});
+    const block_number = searchParams.get('block_number')
+    if ( !block_number ) return c.json({error: 'block_number is required'});
+    const response = await balance(address, tick, Number(block_number));
     return c.json(response);
 })
 
