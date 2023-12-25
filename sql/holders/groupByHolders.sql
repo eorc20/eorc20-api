@@ -7,4 +7,4 @@ SELECT
 FROM mint_sum_mv
 WHERE tick = 'eoss'
 ORDER BY amount DESC
-LIMIT 500;
+-- LIMIT 500;
