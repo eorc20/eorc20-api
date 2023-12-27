@@ -30,7 +30,7 @@ export const sumTransferByAddressResponse = Type.Object({
 
 export async function sumTransferByAddress(address: Address) {
     const sql = fs.readFileSync("./sql/tokens/sumTransferByAddress.sql", "utf-8");
-    console.log("sumTransferByAddress", {address, sql});
+    // console.log("sumTransferByAddress", {address, sql});
     return query<SumTransferByAddress>({query: sql, query_params: {address}});
 }
 

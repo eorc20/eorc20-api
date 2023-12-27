@@ -2,6 +2,7 @@
 
 import { cors } from 'hono/cors'
 import { cache } from 'hono/cache'
+import { logger } from 'hono/logger'
 import { Hono } from 'hono'
 import { Address } from "viem";
 import { supply } from './sql/supply/supply.js'
@@ -14,7 +15,7 @@ import { file } from 'bun';
 import { openapi } from './src/openapi.js';
 
 const app = new Hono()
-app.use('/*', cors())
+app.use('/*', cors(), logger())
 
 app.get('/supply', async (c) => {
     const {searchParams} = new URL(c.req.url)

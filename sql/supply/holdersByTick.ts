@@ -14,7 +14,7 @@ export type HoldersByTick = Static<typeof HoldersByTick>
 
 export async function holdersByTick() {
     const sql = fs.readFileSync("./sql/supply/holdersByTick.sql", "utf-8");
-    console.log(sql)
+    // console.log(sql)
     const { data } = await query<HoldersByTick>({ query: sql });
     return new Map(data.map((row) => [row.tick, row]));
 }

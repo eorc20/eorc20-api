@@ -24,7 +24,7 @@ export async function sumMintByAddress(from: Address) {
         FROM mint_sum_mv
         WHERE from = {address: String}
     `
-    console.log("sumMintByAddress", {from, sql})
+    // console.log("sumMintByAddress", {from, sql})
     return query<SumMintByAddress>({query: sql, query_params: {address: from.toLowerCase()}});
 }
 

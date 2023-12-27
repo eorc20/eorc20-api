@@ -12,19 +12,19 @@ interface SumTransfer {
 
 export async function sumTransferFrom(from: Address, tick: string, block_number: number) {
     const sql = fs.readFileSync("./sql/balance/sumTransferFrom.sql", "utf-8");
-    console.log("sumTransferFrom", {from, tick, block_number, sql})
+    // console.log("sumTransferFrom", {from, tick, block_number, sql})
     return query<SumTransfer>({query: sql, query_params: {address: from.toLowerCase(), tick, block_number}});
 }
 
 export async function sumTransferTo(from: Address, tick: string, block_number: number) {
     const sql = fs.readFileSync("./sql/balance/sumTransferTo.sql", "utf-8");
-    console.log("sumTransferTo", {from, tick, block_number, sql})
+    // console.log("sumTransferTo", {from, tick, block_number, sql})
     return query<SumTransfer>({query: sql, query_params: {address: from.toLowerCase(), tick, block_number}});
 }
 
 export async function sumMintFrom(from: Address, tick: string) {
     const sql = fs.readFileSync("./sql/balance/sumMintFrom.sql", "utf-8");
-    console.log("sumMintFrom", {from, tick, sql})
+    // console.log("sumMintFrom", {from, tick, sql})
     return query<SumTransfer>({query: sql, query_params: {address: from.toLowerCase(), tick}});
 }
 
