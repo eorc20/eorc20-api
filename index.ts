@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { cors } from 'hono/cors'
+import { cache } from 'hono/cache'
 import { Hono } from 'hono'
 import { Address } from "viem";
 import { supply } from './sql/supply/supply.js'
@@ -14,17 +15,24 @@ import { openapi } from './src/openapi.js';
 
 const app = new Hono()
 app.use('/*', cors())
+
 app.get('/supply', async (c) => {
     const {searchParams} = new URL(c.req.url)
     const ticks = (searchParams.get('tick') ?? "eoss").split(",")
     const response = await supply(ticks)
     return c.json(response);
-})
+}, cache({
+    cacheName: 'supply',
+    cacheControl: 'max-age=3600',
+}))
 
 app.get('/holders', async (c) => {
     const response = await holders()
     return c.json(response);
-})
+}, cache({
+    cacheName: 'holders',
+    cacheControl: 'max-age=3600',
+}))
 
 app.get('/tokens', async (c) => {
     const {searchParams} = new URL(c.req.url)
