@@ -15,7 +15,9 @@ import { openapi } from './src/openapi.js';
 const app = new Hono()
 app.use('/*', cors())
 app.get('/supply', async (c) => {
-    const response = await supply()
+    const {searchParams} = new URL(c.req.url)
+    const ticks = (searchParams.get('tick') ?? "eoss").split(",")
+    const response = await supply(ticks)
     return c.json(response);
 })
 

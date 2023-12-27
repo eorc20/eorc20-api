@@ -22,7 +22,7 @@
     "viem": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "bun-types": "^1.0.20",
     "typescript": "latest"
   }
 }
