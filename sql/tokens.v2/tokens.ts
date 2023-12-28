@@ -19,7 +19,7 @@ export const TokensV2 = Type.Object({
 export type TokensV2 = Static<typeof TokensV2>
 
 export const TokensV2Response = Type.Object({
-    rows: Type.Number({example: 500}),
+    rows: Type.Number({example: 1}),
     data: Type.Array(TokensV2),
 })
 
