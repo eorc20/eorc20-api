@@ -6,9 +6,9 @@ export const Supply = Type.Object({
     // mint
     tick: Type.String({example: 'eoss'}),
     decimals: Type.Number({example: 0}),
-    holders: Type.Number({example: 113336280}),
-    active_supply: Type.Number({example: 1133545550000}),
-    transactions: Type.Number({example:  113336280}),
+    holders: Type.Number({example: 22180}),
+    active_supply: Type.Number({example: 210000000000}),
+    transactions: Type.Number({example:  21003672}),
 
     // extras
     // last_block_number: Type.String({example: 21443557}),
@@ -69,4 +69,4 @@ export async function supply(ticks: string[] = ["eoss"]) {
     return { data, rows: data.length };
 }
 
-// supply().then(console.log)
+supply().then(console.log)
