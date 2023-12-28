@@ -17,28 +17,31 @@ export const HoldersResponse = Type.Object({
     data: Type.Array(Holders),
 })
 
-export async function holders() {
+export async function holders(tick: string) {
     let max_supply = 0;
     const balances = new Map<string, number>();
-    for ( const row of (await groupByHolders()).data) {
-        if ( row.tick !== 'eoss' ) continue;
+    const [holders, transferFrom, transferTo] = await Promise.all([
+        groupByHolders(tick),
+        sumTransferByTo(tick),
+        sumTransferByFrom(tick),
+    ]);
+
+    for ( const row of holders.data) {
         balances.set(row.address, Number(row.amount));
         max_supply = row.max_supply;
     }
-    for ( const row of (await sumTransferByTo()).data) {
-        if ( row.tick !== 'eoss' ) continue;
+    for ( const row of transferFrom.data) {
         balances.set(row.to, (balances.get(row.to) || 0) + Number(row.amt));
     }
-    for ( const row of (await sumTransferByFrom()).data) {
-        if ( row.tick !== 'eoss' ) continue;
+    for ( const row of transferTo.data) {
         balances.set(row.from, (balances.get(row.from) || 0) - Number(row.amt));
     }
     const data: Holders[] = []
     for ( const [address, amount] of balances.entries() ) {
         data.push({
-            tick: 'eoss',
+            tick,
             address,
-            percentage: amount / max_supply,
+            percentage: Number((amount / max_supply).toFixed(5)),
             max_supply,
             amount,
         })

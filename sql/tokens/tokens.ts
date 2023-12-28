@@ -23,13 +23,13 @@ export const TokensResponse = Type.Object({
     data: Type.Array(Tokens),
 })
 
-export async function tokens(address: Address) {
-    const tick = 'eoss';
-    const block_number = 9999999999999;
+export async function tokens(address: Address, tick: string, block_number: number) {
     // queries
-    const mintFrom = await sumMintFrom(address, tick);
-    const transferFrom = await sumTransferFrom(address, tick, block_number);
-    const transferTo = await sumTransferTo(address, tick, block_number);
+    const [mintFrom, transferFrom, transferTo] = await Promise.all([
+        sumMintFrom(address, tick),
+        sumTransferFrom(address, tick, block_number),
+        sumTransferTo(address, tick, block_number)
+    ]);
     const amount = getAmount(mintFrom) - getAmount(transferFrom) + getAmount(transferTo)
     const transactions = getTransactions(mintFrom) + getTransactions(transferFrom) + getTransactions(transferTo)
 
@@ -47,4 +47,4 @@ export async function tokens(address: Address) {
     }
 }
 
-// tokens("0xbBBBbBbbbBBBBbbbbbbBBbBB5530EA015b900000").then(console.log);
+// tokens("0xbBBBbBbbbBBBBbbbbbbBBbBB5530EA015b900000", "eoss", 9999999999999).then(console.log);

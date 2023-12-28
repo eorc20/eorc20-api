@@ -34,8 +34,10 @@ export const SupplyResponse = Type.Object({
 })
 
 export async function supply(ticks: string[] = ["eoss"]) {
-    const deploy = await selectDeploy();
-    const holdersMap = await holdersByTick();
+    const [deploy, holdersMap] = await Promise.all([
+        selectDeploy(),
+        holdersByTick()
+    ]);
 
     // filter by tick
     deploy.data = deploy.data.filter((deploy) => holdersMap.has(deploy.tick));
