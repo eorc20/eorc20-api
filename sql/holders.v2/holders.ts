@@ -7,12 +7,12 @@ export const HoldersV2 = Type.Object({
     address: Type.String({example: "0x6d409f58a965ef0b3857465496d17d64820a78ba"}),
     tick: Type.String({example: "eoss"}),
     amount: Type.Number({example: 1500001400}),
-    mintFrom: Type.Number({example: 0}),
-    transferFrom: Type.Number({example: 0}),
-    transferTo: Type.Number({example: 1500001400}),
+    mint_from: Type.Number({example: 0}),
+    transfer_from: Type.Number({example: 0}),
+    transfer_to: Type.Number({example: 1500001400}),
     transactions: Type.Number({example: 6}),
-    firstTimestamp: Type.String({example: "2023-12-22 22:53:11"}),
-    lastTimestamp: Type.String({ example: "2023-12-24 01:43:37" }),
+    first_timestamp: Type.String({example: "2023-12-22 22:53:11"}),
+    last_timestamp: Type.String({ example: "2023-12-24 01:43:37" }),
     percentage: Type.Number({example: 0.007143,}),
 })
 
@@ -34,9 +34,9 @@ export async function holdersV2(tick: string, limit: number, offset: number) {
 
         // convert to numbers
         item.amount = Number(item.amount);
-        item.mintFrom = Number(item.mintFrom);
-        item.transferFrom = Number(item.transferFrom);
-        item.transferTo = Number(item.transferTo);
+        item.mint_from = Number(item.mint_from);
+        item.transfer_from = Number(item.transfer_from);
+        item.transfer_to = Number(item.transfer_to);
         item.transactions = Number(item.transactions);
     });
     return { data, rows }

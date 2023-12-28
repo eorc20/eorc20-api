@@ -69,4 +69,4 @@ export async function supply(ticks: string[] = ["eoss"]) {
     return { data, rows: data.length };
 }
 
-supply().then(console.log)
+// supply().then(console.log)
