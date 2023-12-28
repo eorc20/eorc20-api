@@ -3,7 +3,7 @@ import pkg from "../package.json" assert { type: "json" };
 import { LicenseObject } from "openapi3-ts/oas30";
 import { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 import { SupplyResponse } from "../sql/supply/supply.js";
-import { HoldersResponse } from "../sql/holders/holders.js";
+import { HoldersV2Response } from "../sql/holders.v2/holders.js";
 import { TokensResponse } from "../sql/tokens/tokens.js";
 
 const TAGS = {
@@ -57,11 +57,34 @@ export async function openapi() {
     .addPath("/holders", {
       get: {
         tags: [TAGS.USAGE],
+        parameters: [
+          {
+            name: "tick",
+            in: "query",
+            description: "Ticker",
+            required: true,
+            schema: { type: "string", example: "eoss", default: "eoss" },
+          },
+          {
+            name: "limit",
+            in: "query",
+            description: "Limit rows to return",
+            required: false,
+            schema: { type: "number", example: 500, default: 500 },
+          },
+          {
+            name: "offset",
+            in: "query",
+            description: "Offset rows to return",
+            required: false,
+            schema: { type: "number", example: 0, default: 0 },
+          },
+        ],
         summary: "Get all holders",
         responses: {
           200: {
             description: "List of token holders",
-            content: { "application/json": { schema: HoldersResponse }},
+            content: { "application/json": { schema: HoldersV2Response }},
           },
         },
       },
