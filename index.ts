@@ -7,7 +7,7 @@ import { Address } from "viem";
 import { supply } from './sql/supply/supply.js'
 // import { holders } from './sql/holders/holders.js'
 import { holdersV2 } from './sql/holders.v2/holders.js'
-import { tokens } from './sql/tokens/tokens.js'
+import { tokensV2 } from './sql/tokens.v2/tokens.js'
 import { balance } from './sql/balance/balance.js'
 import { openapi } from './src/openapi.js';
 import swaggerHtml from "./swagger/index.html";
@@ -44,11 +44,9 @@ app.get('/tokens', async (c) => {
     const {searchParams} = new URL(c.req.url)
     const address = searchParams.get('address') as Address | null
     if (!address) return c.json({ error: 'address is required' });
-    const tick = searchParams.get('tick') ?? "eoss"
-    if (!tick) return c.json({ error: 'tick is required' });
     const block_number = parseInt(searchParams.get('block_number') ?? "9999999999999");
     if ( !block_number ) return c.json({error: 'block_number is required'});
-    const response = await tokens(address, tick, block_number)
+    const response = await tokensV2(address, block_number)
     return c.json(response);
 })
 

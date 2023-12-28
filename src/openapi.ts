@@ -4,7 +4,7 @@ import { LicenseObject } from "openapi3-ts/oas30";
 import { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 import { SupplyResponse } from "../sql/supply/supply.js";
 import { HoldersV2Response } from "../sql/holders.v2/holders.js";
-import { TokensResponse } from "../sql/tokens/tokens.js";
+import { TokensV2Response } from "../sql/tokens.v2/tokens.js";
 
 const TAGS = {
   USAGE: "Usage",
@@ -70,14 +70,14 @@ export async function openapi() {
             in: "query",
             description: "Limit rows to return",
             required: false,
-            schema: { type: "number", example: 500, default: 500 },
+            schema: { type: "number", default: 500 },
           },
           {
             name: "offset",
             in: "query",
             description: "Offset rows to return",
             required: false,
-            schema: { type: "number", example: 0, default: 0 },
+            schema: { type: "number", default: 0 },
           },
         ],
         summary: "Get all holders",
@@ -100,12 +100,19 @@ export async function openapi() {
             required: true,
             schema: { type: "string", example: "0x653ebe1666f1179b992e40c2a71859c01230d424" },
           },
+          {
+            name: "block_number",
+            in: "query",
+            description: "Computes token data up to specified block number",
+            required: false,
+            schema: { type: "number" },
+          },
         ],
         summary: "Get tokens from address",
         responses: {
           200: {
             description: "List of tokens from address",
-            content: { "application/json": { schema: TokensResponse }},
+            content: { "application/json": { schema: TokensV2Response }},
           },
         },
       },
