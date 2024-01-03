@@ -5,6 +5,7 @@ import { OpenApiBuilder, ResponsesObject } from "openapi3-ts/oas31";
 import { SupplyResponse } from "../sql/supply/supply.js";
 import { HoldersV2Response } from "../sql/holders.v2/holders.js";
 import { TokensV2Response } from "../sql/tokens.v2/tokens.js";
+import { InscriptionResponse } from "../sql/inscription/inscription.js";
 
 const TAGS = {
   USAGE: "Usage",
@@ -85,6 +86,41 @@ export async function openapi() {
           200: {
             description: "List of token holders",
             content: { "application/json": { schema: HoldersV2Response }},
+          },
+        },
+      },
+    })
+    .addPath("/inscription", {
+      get: {
+        tags: [TAGS.USAGE],
+        parameters: [
+          {
+            name: "owner",
+            in: "query",
+            description: "Owner address",
+            required: true,
+            schema: { type: "string"},
+          },
+          {
+            name: "limit",
+            in: "query",
+            description: "Limit rows to return",
+            required: false,
+            schema: { type: "number", default: 500 },
+          },
+          {
+            name: "offset",
+            in: "query",
+            description: "Offset rows to return",
+            required: false,
+            schema: { type: "number", default: 0 },
+          },
+        ],
+        summary: "Get all inscriptions from owner",
+        responses: {
+          200: {
+            description: "List of inscriptions",
+            content: { "application/json": { schema: InscriptionResponse }},
           },
         },
       },

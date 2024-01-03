@@ -7,6 +7,7 @@ import { Address } from "viem";
 import { supply } from './sql/supply/supply.js'
 // import { holders } from './sql/holders/holders.js'
 import { holdersV2 } from './sql/holders.v2/holders.js'
+import { inscription } from './sql/inscription/inscription.js'
 import { tokensV2 } from './sql/tokens.v2/tokens.js'
 import { balance } from './sql/balance/balance.js'
 import { openapi } from './src/openapi.js';
@@ -23,13 +24,15 @@ app.get('/supply', async (c) => {
     return c.json(response);
 })
 
-// app.get('/holders', async (c) => {
-//     const {searchParams} = new URL(c.req.url)
-//     const tick = searchParams.get('tick') ?? "eoss"
-//     if ( !tick ) return c.json({error: 'tick is required'});
-//     const response = await holders(tick)
-//     return c.json(response);
-// })
+app.get('/inscription', async (c) => {
+    const {searchParams} = new URL(c.req.url)
+    const owner = searchParams.get('owner');
+    if ( !owner ) return c.json({error: 'owner is required'});
+    const limit = parseInt(searchParams.get('limit') ?? "500");
+    const offset = parseInt(searchParams.get('offset') ?? "0")
+    const response = await inscription(owner, limit, offset);
+    return c.json(response);
+})
 
 app.get('/holders', async (c) => {
     const {searchParams} = new URL(c.req.url)
