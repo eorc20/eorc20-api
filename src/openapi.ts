@@ -46,6 +46,15 @@ export async function openapi() {
     .addPath("/supply", {
       get: {
         tags: [TAGS.USAGE],
+        parameters: [
+          {
+            name: "tick",
+            in: "query",
+            description: "Ticker",
+            required: false,
+            schema: { type: "string" },
+          },
+        ],
         summary: "Get tickers supply",
         responses: {
           200: {
