@@ -13,14 +13,20 @@ import { balance } from './sql/balance/balance.js'
 import { openapi } from './src/openapi.js';
 import swaggerHtml from "./swagger/index.html";
 import swaggerFavicon from "./swagger/favicon.png";
+import { Cache } from './src/cache.js';
 
 const app = new Hono()
+const cache = new Cache(60); // default 60 seconds cache
 app.use('/*', cors(), logger())
 
 app.get('/supply', async (c) => {
-    const {searchParams} = new URL(c.req.url)
+    const url = c.req.url;
+    const cached = cache.get(url);
+    if ( cached ) return c.json(cached);
+    const {searchParams} = new URL(url)
     const ticks = (searchParams.get('tick') ?? "eoss").split(",")
     const response = await supply(ticks)
+    cache.set(url, response);
     return c.json(response);
 })
 
@@ -35,11 +41,15 @@ app.get('/inscription', async (c) => {
 })
 
 app.get('/holders', async (c) => {
-    const {searchParams} = new URL(c.req.url)
+    const url = c.req.url;
+    const cached = cache.get(url);
+    if ( cached ) return c.json(cached);
+    const {searchParams} = new URL(url)
     const tick = searchParams.get('tick') ?? "eoss"
     const limit = parseInt(searchParams.get('limit') ?? "500");
     const offset = parseInt(searchParams.get('offset') ?? "0")
     const response = await holdersV2(tick, limit, offset);
+    cache.set(url, response);
     return c.json(response);
 })
 
