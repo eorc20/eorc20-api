@@ -32,8 +32,7 @@ app.get('/supply', async (c) => {
 
 app.get('/inscription', async (c) => {
     const {searchParams} = new URL(c.req.url)
-    const owner = searchParams.get('owner');
-    if ( !owner ) return c.json({error: 'owner is required'});
+    const owner = searchParams.get('owner') ?? '';
     const limit = parseInt(searchParams.get('limit') ?? "500");
     const offset = parseInt(searchParams.get('offset') ?? "0")
     const response = await inscription(owner, limit, offset);

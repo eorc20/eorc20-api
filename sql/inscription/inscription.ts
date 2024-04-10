@@ -23,22 +23,15 @@ export const InscriptionResponse = Type.Object({
     data: Type.Array(Inscription),
 })
 
-export async function inscription(owner: string, limit: number, offset: number) {
+export async function inscription(owner = '', limit: number, offset: number) {
+    if ( owner ) {
+        const sql = fs.readFileSync("./sql/inscription/inscription_by_owner.sql", "utf-8");
+        const { data, rows } = await query<Inscription>({ query: sql, query_params: { owner, limit } });
+        return { data, rows }
+    }
+
     const sql = fs.readFileSync("./sql/inscription/inscription.sql", "utf-8");
     const { data, rows } = await query<Inscription>({ query: sql, query_params: { owner, limit } });
-
-    // // add rank
-    // data.forEach((item: any, index) => {
-    //     // item.rank = 1 + index + offset;
-    //     // item.percentage = Number(item.percentage.toFixed(6));
-
-    //     // convert to numbers
-    //     item.amt = Number(item.amt);
-    //     // item.mint_from = Number(item.mint_from);
-    //     // item.transfer_from = Number(item.transfer_from);
-    //     // item.transfer_to = Number(item.transfer_to);
-    //     // item.transactions = Number(item.transactions);
-    // });
     return { data, rows }
 }
 

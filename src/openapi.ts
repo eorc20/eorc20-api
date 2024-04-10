@@ -107,7 +107,7 @@ export async function openapi() {
             name: "owner",
             in: "query",
             description: "Owner address",
-            required: true,
+            required: false,
             schema: { type: "string"},
           },
           {
