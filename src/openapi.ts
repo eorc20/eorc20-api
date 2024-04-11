@@ -6,6 +6,7 @@ import { SupplyResponse } from "../sql/supply/supply.js";
 import { HoldersV2Response } from "../sql/holders.v2/holders.js";
 import { TokensV2Response } from "../sql/tokens.v2/tokens.js";
 import { InscriptionResponse } from "../sql/inscription/inscription.js";
+import { InfoResponse } from "../sql/inscription/info/info.js";
 
 const TAGS = {
   USAGE: "Usage",
@@ -130,6 +131,27 @@ export async function openapi() {
           200: {
             description: "List of inscriptions",
             content: { "application/json": { schema: InscriptionResponse }},
+          },
+        },
+      },
+    })
+    .addPath("/inscription/info", {
+      get: {
+        tags: [TAGS.USAGE],
+        parameters: [
+          {
+            name: "transaction_hash",
+            in: "query",
+            description: "Transaction Hash",
+            required: true,
+            schema: { type: "string"},
+          },
+        ],
+        summary: "Get inscription info",
+        responses: {
+          200: {
+            description: "Inscription info",
+            content: { "application/json": { schema: InfoResponse }},
           },
         },
       },

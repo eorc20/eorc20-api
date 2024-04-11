@@ -14,6 +14,7 @@ import { openapi } from './src/openapi.js';
 import swaggerHtml from "./swagger/index.html";
 import swaggerFavicon from "./swagger/favicon.png";
 import { Cache } from './src/cache.js';
+import { info } from './sql/inscription/info/info.js';
 
 const app = new Hono()
 const cache = new Cache(60); // default 60 seconds cache
@@ -36,6 +37,14 @@ app.get('/inscription', async (c) => {
     const limit = parseInt(searchParams.get('limit') ?? "500");
     const offset = parseInt(searchParams.get('offset') ?? "0")
     const response = await inscription(owner, limit, offset);
+    return c.json(response);
+})
+
+app.get('/inscription/info', async (c) => {
+    const {searchParams} = new URL(c.req.url)
+    const transaction_hash = searchParams.get('transaction_hash');
+    if (!transaction_hash) return c.json({ error: 'transaction_hash is required' });
+    const response = await info(transaction_hash);
     return c.json(response);
 })
 
